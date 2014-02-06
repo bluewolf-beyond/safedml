@@ -1,0 +1,8 @@
+.svn/
+.vim-force.com/
+src/classes/ForgotPasswordController.cls
+src/classes/ForgotPasswordController.cls-meta.xml
+src/classes/SiteLoginController.cls
+src/classes/SiteLoginController.cls-meta.xml
+src/classes/SiteRegisterController.cls
+src/classes/SiteRegisterController.cls-meta.xml
