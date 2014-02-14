@@ -3,7 +3,7 @@ A library to easily attach errors due to dml failures in triggers.
 
 ## Motivation
 The traditional and correct way to implement safe dml in a trigger is the following:
-```
+```java
 trigger Account on Account (after insert) {
     List<Contact> contacts = new List<Contact>();
     
@@ -27,7 +27,7 @@ There is a lot of boilerplate that is going on in the previous example.
 You also have to write a failure test case in order to get code coverage for the fail case.
 
 Here is the same code using the SafeDML managed package.
-```
+```java
 trigger Account on Account (after insert) {
     List<Contact> contacts = new List<Contact>();
     
@@ -60,7 +60,7 @@ This means that the records and trigger object params need to be the same length
 
 Each function returns a Boolean of True for success and False for failure.
 
-```
+```java
 global static Boolean safeInsert(List<sObject> records, List<List<sObject>> triggerObjects)
 global static Boolean safeInsert(List<sObject> records, List<sObject> triggerObjects)
 
