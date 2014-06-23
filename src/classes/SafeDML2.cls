@@ -47,16 +47,6 @@ global class SafeDML2 {
         }
     }
 
-    static List<List<Sobject>> wrapSobjects(List<Sobject> records) {
-        List<List<Sobject>> wrappedRecords = new List<List<Sobject>>();
-
-        for(Sobject record : records) {
-            wrappedRecords.add(new List<Sobject>{record});
-        }
-
-        return wrappedRecords;
-    }
-
     global static Boolean safeInsert(List<sObject> records, List<List<sObject>> triggerObjects)
     {
         return safeDML(DMLOperation.DML_INSERT, records, triggerObjects);
@@ -64,7 +54,7 @@ global class SafeDML2 {
 
     global static Boolean safeInsert(List<sObject> records, List<sObject> triggerObjects)
     {
-        return safeDML(DMLOperation.DML_INSERT, records, wrapSobjects(triggerObjects));
+        return safeDML(DMLOperation.DML_INSERT, records, SafeDMLUtils.wrapSobjects(triggerObjects));
     }
 
     global static Boolean safeUpdate(List<sObject> records, List<List<sObject>> triggerObjects)
@@ -74,7 +64,7 @@ global class SafeDML2 {
 
     global static Boolean safeUpdate(List<sObject> records, List<sObject> triggerObjects)
     {
-        return safeDML(DMLOperation.DML_UPDATE, records, wrapSobjects(triggerObjects));
+        return safeDML(DMLOperation.DML_UPDATE, records, SafeDMLUtils.wrapSobjects(triggerObjects));
     }
 
     global static Boolean safeUpsert(List<sObject> records, List<List<sObject>> triggerObjects)
@@ -84,7 +74,7 @@ global class SafeDML2 {
 
     global static Boolean safeUpsert(List<sObject> records, List<sObject> triggerObjects)
     {
-        return safeDML(DMLOperation.DML_UPSERT, records, wrapSobjects(triggerObjects));
+        return safeDML(DMLOperation.DML_UPSERT, records, SafeDMLUtils.wrapSobjects(triggerObjects));
     }
 
     global static Boolean safeDelete(List<sObject> records, List<List<sObject>> triggerObjects)
@@ -94,7 +84,7 @@ global class SafeDML2 {
 
     global static Boolean safeDelete(List<sObject> records, List<sObject> triggerObjects)
     {
-        return safeDML(DMLOperation.DML_DELETE, records, wrapSobjects(triggerObjects));
+        return safeDML(DMLOperation.DML_DELETE, records, SafeDMLUtils.wrapSobjects(triggerObjects));
     }
 
     global static Boolean safeUndelete(List<sObject> records, List<List<sObject>> triggerObjects)
@@ -104,6 +94,6 @@ global class SafeDML2 {
 
     global static Boolean safeUndelete(List<sObject> records, List<sObject> triggerObjects)
     {
-        return safeDML(DMLOperation.DML_UNDELETE, records, wrapSobjects(triggerObjects));
+        return safeDML(DMLOperation.DML_UNDELETE, records, SafeDMLUtils.wrapSobjects(triggerObjects));
     }
 }
