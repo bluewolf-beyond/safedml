@@ -1,4 +1,4 @@
-# SafeDML version 1.4
+# SafeDML version 1.5
 A library to easily attach errors due to dml failures in triggers.
 
 ## Motivation
@@ -30,17 +30,18 @@ Here is the same code using the SafeDML managed package.
 ```java
 trigger Account on Account (after insert) {
     List<Contact> contacts = new List<Contact>();
+    SafeDML.DMLBox dmlBox = new SafeDML.DMLBox();
 
     for(Account account : Trigger.new) {
-        contacts.add(new Contact(Name = account.Name));
+        dmlBox.add(new Contact(Name = account.Name), account);
     }
 
-    SafeDML.SafeDML2.safeInsert(contacts, Trigger.new);
+    dmlBox.safeInsert();
 }
 ```
 
 ## Install Path
-/packaging/installPackage.apexp?p0=04tE00000001XU1
+/packaging/installPackage.apexp?p0=04tE00000001Xld
 
 ## License
 Licensed under the MIT License.
@@ -48,31 +49,36 @@ See the LICENSE file.
 
 ## Documentation
 
-The supported DML operations are Insert, Update, Upsert, Delete, Undelete.
-The functions are located in the SafeDML2 class.
-Each operation has 2 forms of the same function.
+The supported DML operations are Insert, Update, Delete, Undelete.
+The functions are located in the DMLBox class.
 
-1. The first form attaches the error message from the _i_ th record to each record in the _i_ th list of related trigger objects. The first form of the function is only necessary when 2 or more trigger objects cause the creation of the same object.
+Each function returns a list of:
+Insert, Update: Database.SaveResult
+Delete: Database.DeleteResult
+Undelete: Database.UndeleteResult
 
-2. The second form attaches the error message from the _i_ th record to the _i_ th related trigger object.
+Steps to get the package working:
 
-This means that the records and trigger object params need to be the same length.
-
-Each function returns a Boolean of True for success and False for failure.
+1. Initialize DMLBox
 
 ```java
-global static Boolean safeInsert(List<sObject> records, List<List<sObject>> triggerObjects)
-global static Boolean safeInsert(List<sObject> records, List<sObject> triggerObjects)
+SafeDML.DMLBox dmlBox = new DMLBox();
+```
 
-global static Boolean safeUpdate(List<sObject> records, List<List<sObject>> triggerObjects)
-global static Boolean safeUpdate(List<sObject> records, List<sObject> triggerObjects)
+2. Add associated an associated object to do dml on and trigger objects to attach errors to. There are 2 versions of the add function.
+  1. One that takes a single related trigger object
+  2. One that takes a list of related trigger objects
 
-global static Boolean safeUpsert(List<sObject> records, List<List<sObject>> triggerObjects)
-global static Boolean safeUpsert(List<sObject> records, List<sObject> triggerObjects)
+```java
+global DMLBox add(Sobject record, Sobject triggerRecord)
+global DMLBox add(Sobject record, List<Sobject> triggerRecords)
+```
 
-global static Boolean safeDelete(List<sObject> records, List<List<sObject>> triggerObjects)
-global static Boolean safeDelete(List<sObject> records, List<sObject> triggerObjects)
+3. Run the safe dml operation
 
-global static Boolean safeUndelete(List<sObject> records, List<List<sObject>> triggerObjects)
-global static Boolean safeUndelete(List<sObject> records, List<sObject> triggerObjects)
+```java
+global List<Database.SaveResult> safeInsert()
+global List<Database.SaveResult> safeUpdate()
+global List<Database.DeleteResult> safeDelete()
+global List<Database.UndeleteResult> safeUndelete()
 ```
