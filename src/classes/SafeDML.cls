@@ -21,7 +21,7 @@ global class SafeDML {
 
     /* used for updating a parent object from a child object trigger */
     /* this can also be used to update an object from the same trigger by setting the childFieldForParentLookup to 'Id' */
-	@deprecated
+    @deprecated
     global static void genericSafeUpdate(List<sObject> recordsToUpdate, List<sObject> triggerRecords, String childFieldForParentLookup) {
         try {
             update recordsToUpdate;
@@ -40,13 +40,13 @@ global class SafeDML {
     }
 
     /* useful when you want to update an object in an after update trigger */
-	@deprecated
+    @deprecated
     global static void genericSafeUpdateSelf(List<sObject> recordsToUpdate, List<sObject> triggerRecords) {
         genericSafeUpdate(recordsToUpdate, triggerRecords, SOBJECT_FIELD_ID);
     }
 
     /* insert child records safely from a parent trigger */
-	@deprecated
+    @deprecated
     global static void genericSafeInsert(List<sObject> recordsToInsert, Map<Id, sObject> triggerMap, String childFieldForParentLookup) {
         try {
             insert recordsToInsert;

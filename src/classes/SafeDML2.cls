@@ -2,7 +2,7 @@ global class SafeDML2 {
     enum DMLOperation { DML_INSERT, DML_UPDATE, DML_UPSERT, DML_DELETE, DML_UNDELETE }
 
     // this function expects that every record be associated with a list of trigger objects to attach errors to in case of errors
-	// returns true if it completed without error and false if it encountered errors
+    // returns true if it completed without error and false if it encountered errors
     static Boolean safeDML(DMLOperation operation, List<sObject> records, List<List<sObject>> triggerObjects)
     {
         try
@@ -28,7 +28,7 @@ global class SafeDML2 {
                 undelete records;
             }
 
-			return true;
+            return true;
         }
         catch(DMLException dmx)
         {
@@ -43,7 +43,7 @@ global class SafeDML2 {
                 }
             }
 
-			return false;
+            return false;
         }
     }
 

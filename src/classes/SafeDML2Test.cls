@@ -19,7 +19,7 @@ private class SafeDML2Test {
             Boolean ret = SafeDML2.safeInsert( new List<Child__c>{ child }, new List<List<Parent__c>>{ new List<Parent__c>{ parent } } );
         Test.stopTest();
 
-		System.assert(ret, 'There should be no errors');
+        System.assert(ret, 'There should be no errors');
 
         List<Child__c> children =
         [
@@ -37,7 +37,7 @@ private class SafeDML2Test {
 
         child.OwnerId = parent.Id;
 
-		Boolean ret = true;
+        Boolean ret = true;
 
         Test.startTest();
             try
@@ -50,7 +50,7 @@ private class SafeDML2Test {
             }
         Test.stopTest();
 
-		System.assert(!ret, 'There should be errors');
+        System.assert(!ret, 'There should be errors');
 
         List<Child__c> children = [
             SELECT Id
@@ -69,7 +69,7 @@ private class SafeDML2Test {
             Boolean ret = SafeDML2.safeInsert( new List<Child__c>{ child }, new List<Parent__c>{ parent } );
         Test.stopTest();
 
-		System.assert(ret, 'There should be no errors');
+        System.assert(ret, 'There should be no errors');
 
         List<Child__c> children =
         [
@@ -87,7 +87,7 @@ private class SafeDML2Test {
 
         child.OwnerId = parent.Id;
 
-		Boolean ret = true;
+        Boolean ret = true;
 
         Test.startTest();
             try
@@ -100,7 +100,7 @@ private class SafeDML2Test {
             }
         Test.stopTest();
 
-		System.assert(!ret, 'There should be errors');
+        System.assert(!ret, 'There should be errors');
 
         List<Child__c> children = [
             SELECT Id
@@ -121,7 +121,7 @@ private class SafeDML2Test {
             Boolean ret = SafeDML2.safeUpdate( new List<Parent__c>{ parent }, new List<List<Child__c>>{ new List<Child__c>{ child } } );
         Test.stopTest();
 
-		System.assert(ret, 'There should be no errors');
+        System.assert(ret, 'There should be no errors');
 
         parent = [
             SELECT Text_Field__c
@@ -139,7 +139,7 @@ private class SafeDML2Test {
         parent.Text_Field__c = NEW_TEXT_FIELD_VALUE;
         parent.OwnerId = parent.Id;
 
-		Boolean ret = true;
+        Boolean ret = true;
 
         Test.startTest();
             try {
@@ -149,7 +149,7 @@ private class SafeDML2Test {
             }
         Test.stopTest();
 
-		System.assert(!ret, 'There should be errors');
+        System.assert(!ret, 'There should be errors');
 
         parent = [
             SELECT Text_Field__c
@@ -170,7 +170,7 @@ private class SafeDML2Test {
             Boolean ret = SafeDML2.safeUpdate( new List<Parent__c>{ parent }, new List<Child__c>{ child } );
         Test.stopTest();
 
-		System.assert(ret, 'There should be no errors');
+        System.assert(ret, 'There should be no errors');
 
         parent = [
             SELECT Text_Field__c
@@ -188,7 +188,7 @@ private class SafeDML2Test {
         parent.Text_Field__c = NEW_TEXT_FIELD_VALUE;
         parent.OwnerId = parent.Id;
 
-		Boolean ret = true;
+        Boolean ret = true;
 
         Test.startTest();
             try {
@@ -198,7 +198,7 @@ private class SafeDML2Test {
             }
         Test.stopTest();
 
-		System.assert(!ret, 'There should be errors');
+        System.assert(!ret, 'There should be errors');
 
         parent = [
             SELECT Text_Field__c
@@ -217,7 +217,7 @@ private class SafeDML2Test {
             Boolean ret = SafeDML2.safeUpsert( new List<Child__c>{ child }, new List<List<Parent__c>>{ new List<Parent__c>{ parent } } );
         Test.stopTest();
 
-		System.assert(ret, 'There should be no errors');
+        System.assert(ret, 'There should be no errors');
 
         List<Child__c> children =
         [
@@ -235,7 +235,7 @@ private class SafeDML2Test {
 
         child.OwnerId = parent.Id;
 
-		Boolean ret = true;
+        Boolean ret = true;
 
         Test.startTest();
             try
@@ -248,7 +248,7 @@ private class SafeDML2Test {
             }
         Test.stopTest();
 
-		System.assert(!ret, 'There should be errors');
+        System.assert(!ret, 'There should be errors');
 
         List<Child__c> children = [
             SELECT Id
@@ -267,7 +267,7 @@ private class SafeDML2Test {
             Boolean ret = SafeDML2.safeUpsert( new List<Child__c>{ child }, new List<Parent__c>{ parent } );
         Test.stopTest();
 
-		System.assert(ret, 'There should be no errors');
+        System.assert(ret, 'There should be no errors');
 
         List<Child__c> children =
         [
@@ -285,7 +285,7 @@ private class SafeDML2Test {
 
         child.OwnerId = parent.Id;
 
-		Boolean ret = true;
+        Boolean ret = true;
 
         Test.startTest();
             try
@@ -298,7 +298,7 @@ private class SafeDML2Test {
             }
         Test.stopTest();
 
-		System.assert(!ret, 'There should be errors');
+        System.assert(!ret, 'There should be errors');
 
         List<Child__c> children = [
             SELECT Id
@@ -319,7 +319,7 @@ private class SafeDML2Test {
             Boolean ret = SafeDML2.safeUpsert( new List<Parent__c>{ parent }, new List<List<Child__c>>{ new List<Child__c>{ child } } );
         Test.stopTest();
 
-		System.assert(ret, 'There should be no errors');
+        System.assert(ret, 'There should be no errors');
 
         parent = [
             SELECT Text_Field__c
@@ -337,7 +337,7 @@ private class SafeDML2Test {
         parent.Text_Field__c = NEW_TEXT_FIELD_VALUE;
         parent.OwnerId = parent.Id;
 
-		Boolean ret = true;
+        Boolean ret = true;
 
         Test.startTest();
             try {
@@ -347,7 +347,7 @@ private class SafeDML2Test {
             }
         Test.stopTest();
 
-		System.assert(!ret, 'There should be errors');
+        System.assert(!ret, 'There should be errors');
 
         parent = [
             SELECT Text_Field__c
@@ -368,7 +368,7 @@ private class SafeDML2Test {
             Boolean ret = SafeDML2.safeUpsert( new List<Parent__c>{ parent }, new List<Child__c>{ child } );
         Test.stopTest();
 
-		System.assert(ret, 'There should be no errors');
+        System.assert(ret, 'There should be no errors');
 
         parent = [
             SELECT Text_Field__c
@@ -386,7 +386,7 @@ private class SafeDML2Test {
         parent.Text_Field__c = NEW_TEXT_FIELD_VALUE;
         parent.OwnerId = parent.Id;
 
-		Boolean ret = true;
+        Boolean ret = true;
 
         Test.startTest();
             try {
@@ -396,7 +396,7 @@ private class SafeDML2Test {
             }
         Test.stopTest();
 
-		System.assert(!ret, 'There should be errors');
+        System.assert(!ret, 'There should be errors');
 
         parent = [
             SELECT Text_Field__c
@@ -415,7 +415,7 @@ private class SafeDML2Test {
             Boolean ret = SafeDML2.safeDelete( new List<Child__c>{ child }, new List<List<Parent__c>>{ new List<Parent__c>{ parent } } );
         Test.stopTest();
 
-		System.assert(ret, 'There should be no errors');
+        System.assert(ret, 'There should be no errors');
 
         List<Child__c> children= [
             SELECT Id
@@ -432,7 +432,7 @@ private class SafeDML2Test {
 
         delete child;
 
-		Boolean ret = true;
+        Boolean ret = true;
 
         Test.startTest();
             try
@@ -445,7 +445,7 @@ private class SafeDML2Test {
             }
         Test.stopTest();
 
-		System.assert(!ret, 'There should be errors');
+        System.assert(!ret, 'There should be errors');
 
         List<Child__c> children= [
             SELECT Id
@@ -464,7 +464,7 @@ private class SafeDML2Test {
             Boolean ret = SafeDML2.safeDelete( new List<Child__c>{ child }, new List<Parent__c>{ parent } );
         Test.stopTest();
 
-		System.assert(ret, 'There should be no errors');
+        System.assert(ret, 'There should be no errors');
 
         List<Child__c> children= [
             SELECT Id
@@ -481,7 +481,7 @@ private class SafeDML2Test {
 
         delete child;
 
-		Boolean ret = true;
+        Boolean ret = true;
 
         Test.startTest();
             try
@@ -494,7 +494,7 @@ private class SafeDML2Test {
             }
         Test.stopTest();
 
-		System.assert(!ret, 'There should be errors');
+        System.assert(!ret, 'There should be errors');
 
         List<Child__c> children= [
             SELECT Id
@@ -515,7 +515,7 @@ private class SafeDML2Test {
             Boolean ret = SafeDML2.safeUndelete( new List<Child__c>{ child }, new List<List<Parent__c>>{ new List<Parent__c>{ parent } } );
         Test.stopTest();
 
-		System.assert(ret, 'There should be no errors');
+        System.assert(ret, 'There should be no errors');
 
         List<Child__c> children= [
             SELECT Id
@@ -530,7 +530,7 @@ private class SafeDML2Test {
     {
         setup(true);
 
-		Boolean ret = true;
+        Boolean ret = true;
 
         Test.startTest();
             try
@@ -543,7 +543,7 @@ private class SafeDML2Test {
             }
         Test.stopTest();
 
-		System.assert(!ret, 'There should be errors');
+        System.assert(!ret, 'There should be errors');
 
         List<Child__c> children= [
             SELECT Id
@@ -564,7 +564,7 @@ private class SafeDML2Test {
             Boolean ret = SafeDML2.safeUndelete( new List<Child__c>{ child }, new List<Parent__c>{ parent } );
         Test.stopTest();
 
-		System.assert(ret, 'There should be no errors');
+        System.assert(ret, 'There should be no errors');
 
         List<Child__c> children= [
             SELECT Id
@@ -579,7 +579,7 @@ private class SafeDML2Test {
     {
         setup(true);
 
-		Boolean ret = true;
+        Boolean ret = true;
 
         Test.startTest();
             try
@@ -592,7 +592,7 @@ private class SafeDML2Test {
             }
         Test.stopTest();
 
-		System.assert(!ret, 'There should be errors');
+        System.assert(!ret, 'There should be errors');
 
         List<Child__c> children= [
             SELECT Id
