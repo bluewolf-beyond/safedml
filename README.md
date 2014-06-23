@@ -6,11 +6,11 @@ The traditional and correct way to implement safe dml in a trigger is the follow
 ```java
 trigger Account on Account (after insert) {
     List<Contact> contacts = new List<Contact>();
-    
+
     for(Account account : Trigger.new) {
         contacts.add(new Contact(Name = account.Name));
     }
-    
+
     try {
         insert contacts;
     } catch(DMLException e) {
@@ -30,11 +30,11 @@ Here is the same code using the SafeDML managed package.
 ```java
 trigger Account on Account (after insert) {
     List<Contact> contacts = new List<Contact>();
-    
+
     for(Account account : Trigger.new) {
         contacts.add(new Contact(Name = account.Name));
     }
-    
+
     SafeDML.SafeDML2.safeInsert(contacts, Trigger.new);
 }
 ```
