@@ -61,7 +61,7 @@ Steps to get the package working:
 1. Initialize DMLBox
 
   ```java
-SafeDML.DMLBox dmlBox = new DMLBox();
+SafeDML.DMLBox dmlBox = new SafeDML.DMLBox();
 ```
 
 2. Add associated an associated object to do dml on and trigger objects to attach errors to. There are 2 versions of the add function.
