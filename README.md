@@ -64,7 +64,7 @@ Steps to get the package working:
 SafeDML.DMLBox dmlBox = new SafeDML.DMLBox();
 ```
 
-2. Add associated an associated object to do dml on and trigger objects to attach errors to. There are 2 versions of the add function.
+2. Add an associated object to do dml on and trigger objects to attach errors to. There are 2 versions of the add function.
   1. One that takes a single related trigger object
   2. One that takes a list of related trigger objects
 
