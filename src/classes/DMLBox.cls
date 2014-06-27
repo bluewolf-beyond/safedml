@@ -1,4 +1,7 @@
 global class DMLBox {
+    // upsert is not available as a generic dml operation
+    // https://success.salesforce.com/ideaView?id=08730000000aNhVAAU
+
     public class SafeOperation {
         public Sobject record;
         public List<Sobject> triggerRecords;
@@ -11,15 +14,6 @@ global class DMLBox {
         public SafeOperation(Sobject record, Sobject triggerRecord) {
             this(record, new List<Sobject>{triggerRecord});
         }
-    }
-
-    // upsert is not available as a generic dml operation
-    // https://success.salesforce.com/ideaView?id=08730000000aNhVAAU
-    enum DMLOperation
-    { DML_INSERT
-    , DML_UPDATE
-    , DML_DELETE
-    , DML_UNDELETE
     }
 
     public List<SafeOperation> safeOperations;
@@ -36,6 +30,22 @@ global class DMLBox {
 
     global DMLBox add(Sobject record, Sobject triggerRecord) {
         safeOperations.add(new SafeOperation(record, triggerRecord));
+
+        return this;
+    }
+
+    global DMLBox add(List<Sobject> records, List<Sobject> triggerRecords) {
+        for(Sobject record : records) {
+            add(record, triggerRecords);
+        }
+
+        return this;
+    }
+
+    global DMLBox add(List<Sobject> records, Sobject triggerRecord) {
+        for(Sobject record : records) {
+            add(record, triggerRecord);
+        }
 
         return this;
     }

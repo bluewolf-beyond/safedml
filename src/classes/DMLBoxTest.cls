@@ -15,7 +15,7 @@ private class DMLBoxTest {
 
     static testMethod void testSafeInsert_success() {
         setup(false);
-        dmlBox.add(child, new List<Sobject>{parent});
+        dmlBox.add(new List<Sobject>{child}, new List<Sobject>{parent});
 
         Test.startTest();
             List<Database.SaveResult> results = dmlBox.safeInsert();
@@ -34,7 +34,7 @@ private class DMLBoxTest {
 
     static testMethod void testSafeInsert_failure() {
         setup( false );
-        dmlBox.add(child, parent);
+        dmlBox.add(new List<Sobject>{child}, parent);
 
         Test.startTest();
             child.OwnerId = parent.Id;
@@ -55,7 +55,7 @@ private class DMLBoxTest {
 
     static testMethod void testSafeUpdate_success() {
         setup(true);
-        dmlBox.add(parent, child);
+        dmlBox.add(new List<Sobject>{parent}, child);
 
         Test.startTest();
             parent.Text_Field__c = NEW_TEXT_FIELD_VALUE;
@@ -76,7 +76,7 @@ private class DMLBoxTest {
 
     static testMethod void testSafeUpdate_failure() {
         setup(true);
-        dmlBox.add(parent, child);
+        dmlBox.add(new List<Sobject>{parent}, child);
 
         Test.startTest();
             parent.Text_Field__c = NEW_TEXT_FIELD_VALUE;
@@ -98,7 +98,7 @@ private class DMLBoxTest {
 
     static testMethod void testSafeDelete_success() {
         setup(true);
-        dmlBox.add(child, parent);
+        dmlBox.add(new List<Sobject>{child}, parent);
 
         Test.startTest();
             List<Database.DeleteResult> results = dmlBox.safeDelete();
@@ -117,7 +117,7 @@ private class DMLBoxTest {
 
     static testMethod void testSafeDelete_failure() {
         setup(true);
-        dmlBox.add(child, parent);
+        dmlBox.add(new List<Sobject>{child}, parent);
 
         Test.startTest();
             delete child;
@@ -138,7 +138,7 @@ private class DMLBoxTest {
 
     static testMethod void testSafeUndelete_success() {
         setup(true);
-        dmlBox.add(child, parent);
+        dmlBox.add(new List<Sobject>{child}, parent);
 
         Test.startTest();
             delete child;
@@ -159,7 +159,7 @@ private class DMLBoxTest {
 
     static testMethod void testSafeUndelete_failure() {
         setup(true);
-        dmlBox.add(child, parent);
+        dmlBox.add(new List<Sobject>{child}, parent);
 
         Test.startTest();
             List<Database.UndeleteResult> results = dmlBox.safeUndelete();
