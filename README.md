@@ -1,4 +1,4 @@
-# SafeDML version 1.5
+# SafeDML version 1.6
 A library to easily attach errors due to dml failures in triggers.
 
 ## Motivation
@@ -40,7 +40,7 @@ trigger Account on Account (after insert) {
 ```
 
 ## Install Path
-/packaging/installPackage.apexp?p0=04tE00000001Xld
+/packaging/installPackage.apexp?p0=04tE00000001ZND
 
 ## License
 Licensed under the MIT License.
@@ -71,6 +71,8 @@ SafeDML.DMLBox dmlBox = new SafeDML.DMLBox();
   ```java
 global DMLBox add(Sobject record, Sobject triggerRecord)
 global DMLBox add(Sobject record, List<Sobject> triggerRecords)
+global DMLBox add(List<Sobject> records, Sobject triggerRecord)
+global DMLBox add(List<Sobject> records, List<Sobject> triggerRecords)
 ```
 
 3. Run the safe dml operation
