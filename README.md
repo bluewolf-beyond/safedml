@@ -52,9 +52,9 @@ The supported DML operations are Insert, Update, Delete, Undelete.
 The functions are located in the DMLBox class.
 
 Each function returns a list of:
-Insert, Update: Database.SaveResult
-Delete: Database.DeleteResult
-Undelete: Database.UndeleteResult
+- Insert, Update: Database.SaveResult
+- Delete: Database.DeleteResult
+- Undelete: Database.UndeleteResult
 
 Steps to get the package working:
 
