@@ -81,8 +81,8 @@ global DMLBox add(List<Sobject> records, List<Sobject> triggerRecords)
 3. Run the safe dml operation
 
   ```java
-global List<Database.SaveResult> safeInsert()
-global List<Database.SaveResult> safeUpdate()
-global List<Database.DeleteResult> safeDelete()
-global List<Database.UndeleteResult> safeUndelete()
+global List<DMLBox.Result> safeInsert()
+global List<DMLBox.Result> safeUpdate()
+global List<DMLBox.Result> safeDelete()
+global List<DMLBox.Result> safeUndelete()
 ```
