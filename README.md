@@ -1,4 +1,4 @@
-# SafeDML version 1.6
+# SafeDML version 1.7
 A library to easily attach errors due to dml failures in triggers.
 
 ## Motivation
@@ -29,7 +29,7 @@ You also have to write a failure test case in order to get code coverage for the
 Here is the same code using the SafeDML managed package.
 ```java
 trigger Account on Account (after insert) {
-    SafeDML.DMLBox dmlBox = new SafeDML.DMLBox();
+    DMLBox dmlBox = new DMLBox();
 
     for(Account account : Trigger.new) {
         dmlBox.add(new Contact(Name = account.Name), account);
@@ -39,8 +39,11 @@ trigger Account on Account (after insert) {
 }
 ```
 
-## Install Path
-/packaging/installPackage.apexp?p0=04tE00000001ZND
+## Install
+
+Install with: ```salesman --properties /path/to/properties install safedml```
+
+To read about salesman, visit: https://github.com/gostrc/salesman
 
 ## License
 Licensed under the MIT License.
@@ -61,7 +64,7 @@ Steps to get the package working:
 1. Initialize DMLBox
 
   ```java
-SafeDML.DMLBox dmlBox = new SafeDML.DMLBox();
+DMLBox dmlBox = new DMLBox();
 ```
 
 2. Add an associated object to do dml on and trigger objects to attach errors to. There are 2 versions of the add function.
