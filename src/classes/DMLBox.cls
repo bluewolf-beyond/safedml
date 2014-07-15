@@ -1,4 +1,4 @@
-global class DMLBox {
+public class DMLBox {
     // upsert is not available as a generic dml operation
     // https://success.salesforce.com/ideaView?id=08730000000aNhVAAU
 
@@ -18,23 +18,23 @@ global class DMLBox {
 
     public List<SafeOperation> safeOperations;
 
-    global DMLBox() {
+    public DMLBox() {
         safeOperations = new List<SafeOperation>();
     }
 
-    global DMLBox add(Sobject record, List<Sobject> triggerRecords) {
+    public DMLBox add(Sobject record, List<Sobject> triggerRecords) {
         safeOperations.add(new SafeOperation(record, triggerRecords));
 
         return this;
     }
 
-    global DMLBox add(Sobject record, Sobject triggerRecord) {
+    public DMLBox add(Sobject record, Sobject triggerRecord) {
         safeOperations.add(new SafeOperation(record, triggerRecord));
 
         return this;
     }
 
-    global DMLBox add(List<Sobject> records, List<Sobject> triggerRecords) {
+    public DMLBox add(List<Sobject> records, List<Sobject> triggerRecords) {
         for(Sobject record : records) {
             add(record, triggerRecords);
         }
@@ -42,7 +42,7 @@ global class DMLBox {
         return this;
     }
 
-    global DMLBox add(List<Sobject> records, Sobject triggerRecord) {
+    public DMLBox add(List<Sobject> records, Sobject triggerRecord) {
         for(Sobject record : records) {
             add(record, triggerRecord);
         }
@@ -50,67 +50,28 @@ global class DMLBox {
         return this;
     }
 
-    global List<Database.SaveResult> safeInsert() {
-        List<Sobject> records = pluckRecords(safeOperations);
-        List<Database.SaveResult> saveResults = Database.insert(records, false);
+    public List<Result> safeInsert() { return addErrors(convert(Database.insert(pluckRecords(safeOperations), false))); }
 
-        for(Integer i = 0; i < saveResults.size(); i++) {
-            Database.SaveResult saveResult = saveResults[i];
+    public List<Result> safeUpdate() { return addErrors(convert(Database.update(pluckRecords(safeOperations), false))); }
 
-            if(!saveResult.isSuccess()) {
-                addErrors(safeOperations[i], saveResult.getErrors());
+    public List<Result> safeDelete() { return addErrors(convert(Database.delete(pluckRecords(safeOperations), false))); }
+
+    public List<Result> safeUndelete() { return addErrors(convert(Database.undelete(pluckRecords(safeOperations), false))); }
+
+    @TestVisible
+    List<Result> addErrors(List<Result> results) {
+        for(Integer i = 0; i < results.size(); i++) {
+            Result result = results[i];
+
+            if(!result.success) {
+                addErrors(safeOperations[i], result.errors);
             }
         }
 
-        return saveResults;
+        return results;
     }
 
-    global List<Database.SaveResult> safeUpdate() {
-        List<Sobject> records = pluckRecords(safeOperations);
-        List<Database.SaveResult> saveResults = Database.update(records, false);
-
-        for(Integer i = 0; i < saveResults.size(); i++) {
-            Database.SaveResult saveResult = saveResults[i];
-
-            if(!saveResult.isSuccess()) {
-                addErrors(safeOperations[i], saveResult.getErrors());
-            }
-        }
-
-        return saveResults;
-    }
-
-    global List<Database.DeleteResult> safeDelete() {
-        List<Sobject> records = pluckRecords(safeOperations);
-        List<Database.DeleteResult> deleteResults = Database.delete(records, false);
-
-        for(Integer i = 0; i < deleteResults.size(); i++) {
-            Database.DeleteResult deleteResult = deleteResults[i];
-
-            if(!deleteResult.isSuccess()) {
-                addErrors(safeOperations[i], deleteResult.getErrors());
-            }
-        }
-
-        return deleteResults;
-    }
-
-    global List<Database.UndeleteResult> safeUndelete() {
-        List<Sobject> records = pluckRecords(safeOperations);
-        List<Database.UndeleteResult> undeleteResults = Database.undelete(records, false);
-
-        for(Integer i = 0; i < undeleteResults.size(); i++) {
-            Database.UndeleteResult undeleteResult = undeleteResults[i];
-
-            if(!undeleteResult.isSuccess()) {
-                addErrors(safeOperations[i], undeleteResult.getErrors());
-            }
-        }
-
-        return undeleteResults;
-    }
-
-    static void addErrors(SafeOperation safeOperation, List<Database.Error> errors) {
+    static void addErrors(SafeOperation safeOperation, List<Error> errors) {
         String errorMessages = getErrorMessages(errors);
         List<Sobject> triggerRecords = safeOperation.triggerRecords;
 
@@ -119,29 +80,30 @@ global class DMLBox {
         }
     }
 
-    static String getErrorMessages(List<Database.Error> errors) {
+    @TestVisible
+    static String getErrorMessages(List<Error> errors) {
         List<String> errorMessages = new List<String>();
 
-        for(Database.Error error : errors) {
+        for(Error error : errors) {
             errorMessages.add(getErrorMessage(error));
         }
 
         return String.join(errorMessages, ', ');
     }
 
-    static String getErrorMessage(Database.Error error) {
+    static String getErrorMessage(Error error) {
         String errorMessage = String.format('{0}: {1}.', new List<String>
             { 'Got the error'
-            , error.getMessage()
+            , error.message
             });
 
         String statusCodeMessage = String.format('{0}: {1}.', new List<String>
             { 'Got the status code'
-            , String.valueOf(error.getStatusCode())
+            , String.valueOf(error.statusCode)
             });
 
         String fieldMessage = '';
-        List<String> fields = error.getFields();
+        List<String> fields = error.fields;
         if(!fields.isEmpty()) {
             fieldMessage += String.format('{0}: {1}.', new List<String>
                 { 'Fields which caused the error'
@@ -164,6 +126,46 @@ global class DMLBox {
         return returnMessage;
     }
 
+    // used as a container for Database.Error
+    public class Error {
+        public String message;
+        public StatusCode statusCode;
+        public List<String> fields;
+
+        public Error(String message, StatusCode statusCode, List<String> fields) {
+            this.message = message;
+            this.statusCode = statusCode;
+            this.fields = fields;
+        }
+    }
+
+    static Error convert(Database.Error error) { return new Error(error.getMessage(), error.getStatusCode(), error.getFields()); }
+
+    static List<Error> convert(List<Database.Error> errors) { List<Error> ret = new List<Error>(); for(Database.Error error : errors) { ret.add(convert(error)); } return ret; }
+
+    public class Result {
+        public Boolean success;
+        public List<Error> errors;
+
+        public Result(Boolean success, List<Error> errors) {
+            this.success = success;
+            this.errors = errors;
+        }
+    }
+
+    static Result convert(Database.SaveResult r) { return new Result(r.isSuccess(), convert(r.getErrors())); }
+
+    static Result convert(Database.DeleteResult r) { return new Result(r.isSuccess(), convert(r.getErrors())); }
+
+    static Result convert(Database.UndeleteResult r) { return new Result(r.isSuccess(), convert(r.getErrors())); }
+
+    static List<Result> convert(List<Database.SaveResult> results) { List<Result> ret = new List<Result>(); for(Database.SaveResult result : results) { ret.add(convert(result)); } return ret; }
+
+    static List<Result> convert(List<Database.DeleteResult> results) { List<Result> ret = new List<Result>(); for(Database.DeleteResult result : results) { ret.add(convert(result)); } return ret; }
+
+    static List<Result> convert(List<Database.UndeleteResult> results) { List<Result> ret = new List<Result>(); for(Database.UndeleteResult result : results) { ret.add(convert(result)); } return ret; }
+
+    @TestVisible
     static List<Sobject> pluckRecords(List<SafeOperation> safeOperations) {
         List<Sobject> records = new List<Sobject>();
 
@@ -172,5 +174,15 @@ global class DMLBox {
         }
 
         return records;
+    }
+
+    public static Boolean hasFailures(List<Result> results) {
+        for(Result result : results) {
+            if(!result.success) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
