@@ -49,7 +49,9 @@ To read about salesman, visit: https://github.com/gostrc/salesman
 
 ### Using the managed package
 
-```/packaging/installPackage.apexp?p0=04tE00000001ZND```
+```
+/packaging/installPackage.apexp?p0=04tE00000001ZND
+```
 
 Note: you need to use the safedml prefix when accessing components within the package
 
